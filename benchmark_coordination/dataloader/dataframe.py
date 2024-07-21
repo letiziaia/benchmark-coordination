@@ -30,7 +30,8 @@ def filter_data(
 ) -> pd.DataFrame:
     """
     Filter data based on the timestamp.
-    :param data: pd.DataFrame, the data to be filtered.
+    :param data: pd.DataFrame, the data to be filtered, having a 'timestamp' column,
+        which contains the timestamp of the data in datetime format (e.g. 2022-09-01 00:00:09).
     :param start_time: datetime, the start time of the filter (inclusive).
     :param end_time: datetime, the end time of the filter (inclusive).
     :return: pd.DataFrame, the filtered data.
