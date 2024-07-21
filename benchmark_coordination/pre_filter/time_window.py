@@ -4,7 +4,6 @@ import networkx as nx
 from typing import Generator
 
 import benchmark_coordination.dataloader.dataframe as dataframe
-import benchmark_coordination.dataloader.graph as graph
 
 
 def slide_df(
