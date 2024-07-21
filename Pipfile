@@ -32,7 +32,7 @@ ruff = "~=0.5.2"
 types-tqdm = "*"
 
 [scripts]
-type = "bash -c 'python -m mypy benchmark_coordination --install-types --non-interactive --exclude setup.py'"
+type = "bash -c 'python -m mypy benchmark_coordination'"
 validate = "bash -c 'python -m ruff check . && python -m pip_audit'"
 
 [requires]
