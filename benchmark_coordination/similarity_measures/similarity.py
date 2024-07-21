@@ -1,6 +1,6 @@
 from typing import Literal, List
 
-import benchmark_coordination.similarity_measures as similarity_measures
+import benchmark_coordination.similarity_measures.scores as scores
 
 
 Sim = Literal["cosine", "jaccard"]
@@ -22,8 +22,8 @@ class SimilarityCalculator:
         self.similarity_score = similarity_score
 
         self.similarity_measures = {
-            "cosine": similarity_measures.cosine_similarity,
-            "jaccard": similarity_measures.jaccard_similarity,
+            "cosine": scores.cosine_similarity,
+            "jaccard": scores.jaccard_similarity,
         }
 
         if self.similarity_score not in self.similarity_measures:
