@@ -1,7 +1,12 @@
+from typing import Any
+from numpy.typing import NDArray
+
 import numpy as np
 
 
-def cosine_similarity(vector1, vector2, return_normalized: bool = False) -> float:
+def cosine_similarity(
+    vector1: NDArray[Any], vector2: NDArray[Any], return_normalized: bool = False
+) -> float:
     """
     Calculate the cosine similarity between two vectors.
     Cosine similarity is only defined for non-zero vectors.
@@ -49,7 +54,7 @@ def cosine_similarity(vector1, vector2, return_normalized: bool = False) -> floa
     return similarity
 
 
-def jaccard_similarity(vector1, vector2) -> float:
+def jaccard_similarity(vector1: NDArray[Any], vector2: NDArray[Any]) -> float:
     """
     Calculate the Jaccard similarity between two vectors.
     Works for non-binary vectors, but only accounts for the
@@ -78,7 +83,7 @@ def jaccard_similarity(vector1, vector2) -> float:
     return similarity
 
 
-def jaccard_binary_similarity(vector1, vector2) -> float:
+def jaccard_binary_similarity(vector1: NDArray[Any], vector2: NDArray[Any]) -> float:
     """
     Calculate the Jaccard similarity between two binary vectors.
     Elements are considered common if they are the same and in the same position.

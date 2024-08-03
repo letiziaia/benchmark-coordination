@@ -1,4 +1,4 @@
-from typing import Literal, List
+from typing import Callable, Dict, Literal, List
 
 import benchmark_coordination.similarity_measures.scores as scores
 
@@ -21,7 +21,7 @@ class SimilarityCalculator:
         """
         self.similarity_score = similarity_score
 
-        self.similarity_measures = {
+        self.similarity_measures: Dict[str, Callable] = {
             "cosine": scores.cosine_similarity,
             "jaccard": scores.jaccard_similarity,
         }
