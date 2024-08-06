@@ -1,10 +1,11 @@
 import pandas as pd
 
 from benchmark_coordination.similarity_measures.similarity import SimilarityCalculator
+from benchmark_coordination.types.similarity import Sim
 
 
 def build_similarity_network(
-    dataframe: pd.DataFrame, score: str, simmetric: bool = True
+    dataframe: pd.DataFrame, score: Sim, simmetric: bool = True
 ) -> pd.DataFrame:
     """
     Build a similarity network from a dataframe using the specified similarity score.

@@ -1,9 +1,7 @@
-from typing import Callable, Dict, Literal, List
+from typing import Callable, Dict, List
 
 import benchmark_coordination.similarity_measures.scores as scores
-
-
-Sim = Literal["cosine", "jaccard"]
+from benchmark_coordination.types.similarity import Sim
 
 
 class SimilarityCalculator:
