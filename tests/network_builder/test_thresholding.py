@@ -1,7 +1,10 @@
 import pytest
 import pandas as pd
 
-from network_builder.thresholding import filter_edgelist, filter_edgelist_by_percentile
+from benchmark_coordination.network_builder.thresholding import (
+    filter_edgelist,
+    filter_edgelist_by_percentile,
+)
 
 
 @pytest.mark.parametrize(
