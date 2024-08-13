@@ -5,7 +5,7 @@ from benchmark_coordination.types.similarity import Sim
 
 
 def build_similarity_network(
-    dataframe: pd.DataFrame, score: Sim, simmetric: bool = True
+    dataframe: pd.DataFrame, score: Sim, symmetric: bool = True
 ) -> pd.DataFrame:
     """
     Build a similarity network from a dataframe using the specified similarity score.
@@ -15,8 +15,20 @@ def build_similarity_network(
     :param score: str, the similarity score to be used.
         If the similarity score is not one of the following: "cosine", "jaccard",
         a ValueError will be raised.
-    :param simmetric: bool, whether the similarity network should be simmetric.
+    :param symmetric: bool, whether the similarity network should be symmetric.
     :return: pd.DataFrame, the edge list for the similarity network.
+    ----------------
+    Example:
+    ----------------
+    >>> import pandas as pd
+    >>> data = {
+    ...     "author_id": [1, 1, 2, 2],
+    ...     "trace": ["A", "B", "A", "C"]
+    ... }
+    >>> df = pd.DataFrame(data)
+    >>> build_similarity_network(df, "jaccard")
+        source  target  similarity
+    0       1       2    0.333333
     """
     sim = SimilarityCalculator(similarity_score=score)
     users = sorted(dataframe["author_id"].unique())
@@ -25,7 +37,7 @@ def build_similarity_network(
         for u2 in users:
             if u1 == u2:
                 continue
-            if simmetric and u1 > u2:
+            if symmetric and u1 > u2:
                 continue
             u1_data = dataframe[dataframe["author_id"] == u1]["trace"]
             u2_data = dataframe[dataframe["author_id"] == u2]["trace"]
