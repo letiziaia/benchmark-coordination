@@ -28,7 +28,7 @@ notebook = "*"
 pandas-stubs = "*"
 pip-audit = "*"
 pytest = "*"
-ruff = "~=0.5.5"
+ruff = "~=0.5.7"
 types-tqdm = "*"
 
 [scripts]
