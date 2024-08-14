@@ -116,3 +116,27 @@ def jaccard_binary_similarity(vector1: NDArray[Any], vector2: NDArray[Any]) -> f
     union = np.logical_or(vector1, vector2)
     similarity = intersection.sum() / float(union.sum())
     return similarity
+
+
+def ratclif_obershelp_similarity(vector1: NDArray[Any], vector2: NDArray[Any]) -> float:
+    """
+    Calculate the Ratcliff/Obershelp similarity between two vectors.
+    The Ratcliff/Obershelp similarity is the number of common elements
+    divided by the total number of elements in the longer vector.
+    :param vector1: The first vector.
+    :param vector2: The second vector.
+    :return: The Ratcliff/Obershelp similarity between the two vectors.
+    ----------------
+    Example:
+    ----------------
+    >>> vector1 = [1, 2, 3]
+    >>> vector2 = [2, 3, 4]
+    >>> ratclif_obershelp_similarity(vector1, vector1)
+    0.6666666666666666
+    """
+    set1 = set(vector1)
+    set2 = set(vector2)
+    common_elements = set1.intersection(set2)
+    num_common_elements = len(common_elements)
+    total_elements = max(len(vector1), len(vector2))
+    return num_common_elements / total_elements if total_elements > 0 else 0.0
