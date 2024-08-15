@@ -123,7 +123,7 @@ def ratcliff_obershelp_similarity(
 ) -> float:
     """
     Calculate the Ratcliff/Obershelp similarity between two vectors.
-    The Ratcliff/Obershelp similarity is the number of matching characters
+    The Ratcliff/Obershelp similarity is twice the number of matching characters
     divided by the total number of characters in the two strings.
     Matching characters are those in the longest common substring plus,
     recursively, matching characters in the unmatched region on either side
@@ -152,6 +152,13 @@ def _longest_common_substring(s1: str, s2: str) -> str:
     :param s1: First string.
     :param s2: Second string.
     :return: The longest common subsequence.
+    ----------------
+    Example:
+    ----------------
+    >>> s1 = "abcde"
+    >>> s2 = "bcdf"
+    >>> _longest_common_substring(s1, s2)
+    'bcd'
     """
     m = len(s1)
     n = len(s2)
@@ -180,6 +187,13 @@ def _matching_characters(s1: str, s2: str) -> int:
     :param s1: First string.
     :param s2: Second string.
     :return: Number of matching characters.
+    ----------------
+    Example:
+    ----------------
+    >>> s1 = "123"
+    >>> s2 = "234"
+    >>> _matching_characters(s1, s2)
+    2
     """
     if not s1 or not s2:
         return 0
@@ -197,5 +211,6 @@ def _matching_characters(s1: str, s2: str) -> int:
     right_match = _matching_characters(
         s1[lcs_start_s1 + lcs_len :], s2[lcs_start_s2 + lcs_len :]
     )
+    print(lcs_len, left_match, right_match)
 
     return lcs_len + left_match + right_match
