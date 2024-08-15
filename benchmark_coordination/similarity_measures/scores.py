@@ -118,11 +118,16 @@ def jaccard_binary_similarity(vector1: NDArray[Any], vector2: NDArray[Any]) -> f
     return similarity
 
 
-def ratclif_obershelp_similarity(vector1: NDArray[Any], vector2: NDArray[Any]) -> float:
+def ratcliff_obershelp_similarity(
+    vector1: NDArray[Any], vector2: NDArray[Any]
+) -> float:
     """
     Calculate the Ratcliff/Obershelp similarity between two vectors.
-    The Ratcliff/Obershelp similarity is the number of common elements
-    divided by the total number of elements in the longer vector.
+    The Ratcliff/Obershelp similarity is the number of matching characters
+    divided by the total number of characters in the two strings.
+    Matching characters are those in the longest common substring plus,
+    recursively, matching characters in the unmatched region on either side
+    of the longest common substring.
     :param vector1: The first vector.
     :param vector2: The second vector.
     :return: The Ratcliff/Obershelp similarity between the two vectors.
@@ -131,12 +136,66 @@ def ratclif_obershelp_similarity(vector1: NDArray[Any], vector2: NDArray[Any]) -
     ----------------
     >>> vector1 = [1, 2, 3]
     >>> vector2 = [2, 3, 4]
-    >>> ratclif_obershelp_similarity(vector1, vector1)
+    >>> ratcliff_obershelp_similarity(vector1, vector1)
     0.6666666666666666
     """
-    set1 = set(vector1)
-    set2 = set(vector2)
-    common_elements = set1.intersection(set2)
-    num_common_elements = len(common_elements)
-    total_elements = max(len(vector1), len(vector2))
-    return num_common_elements / total_elements if total_elements > 0 else 0.0
+    total_elements = len(vector1) + len(vector2)
+    s1 = "".join(map(str, vector1))
+    s2 = "".join(map(str, vector2))
+    matching_chars = _matching_characters(s1, s2)
+    return 2 * matching_chars / total_elements if total_elements > 0 else 0.0
+
+
+def _longest_common_substring(s1: str, s2: str) -> str:
+    """
+    Find the longest common subsequence between two vectors.
+    :param s1: First string.
+    :param s2: Second string.
+    :return: The longest common subsequence.
+    """
+    m = len(s1)
+    n = len(s2)
+    max_len = 0
+    ending_index = m
+    length = [[0] * (n + 1) for _ in range(m + 1)]
+
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if s1[i - 1] == s2[j - 1]:
+                length[i][j] = length[i - 1][j - 1] + 1
+                if length[i][j] > max_len:
+                    max_len = length[i][j]
+                    ending_index = i
+            else:
+                length[i][j] = 0
+
+    return s1[ending_index - max_len : ending_index]
+
+
+def _matching_characters(s1: str, s2: str) -> int:
+    """
+    Compute the number of matching characters between two sequences based on
+    the longest common subsequence and recursively matching characters in the
+    unmatched regions.
+    :param s1: First string.
+    :param s2: Second string.
+    :return: Number of matching characters.
+    """
+    if not s1 or not s2:
+        return 0
+
+    lcs = _longest_common_substring(s1, s2)
+    if not lcs:
+        return 0
+
+    lcs_len = len(lcs)
+    lcs_start_s1 = s1.find(lcs)
+    lcs_start_s2 = s2.find(lcs)
+
+    # Recursively count matching characters in the unmatched regions
+    left_match = _matching_characters(s1[:lcs_start_s1], s2[:lcs_start_s2])
+    right_match = _matching_characters(
+        s1[lcs_start_s1 + lcs_len :], s2[lcs_start_s2 + lcs_len :]
+    )
+
+    return lcs_len + left_match + right_match

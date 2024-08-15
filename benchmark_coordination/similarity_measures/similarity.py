@@ -22,7 +22,7 @@ class SimilarityCalculator:
         Initialize the SimilarityCalculator object with the similarity score to be used.
         :param similarity_score: str, the similarity score to be used.
             If the similarity score is not one of the following: "cosine", "jaccard",
-            "ratclif-obershelp", a ValueError will be raised.
+            "ratcliff-obershelp", a ValueError will be raised.
         :return: None
         """
         self.similarity_score = similarity_score
@@ -30,7 +30,7 @@ class SimilarityCalculator:
         self.similarity_measures: Dict[str, Callable] = {
             "cosine": scores.cosine_similarity,
             "jaccard": scores.jaccard_similarity,
-            "ratclif-obershelp": scores.ratclif_obershelp_similarity,
+            "ratcliff-obershelp": scores.ratclif_obershelp_similarity,
         }
 
         if self.similarity_score not in self.similarity_measures:
