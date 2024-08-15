@@ -30,7 +30,7 @@ class SimilarityCalculator:
         self.similarity_measures: Dict[str, Callable] = {
             "cosine": scores.cosine_similarity,
             "jaccard": scores.jaccard_similarity,
-            "ratcliff-obershelp": scores.ratclif_obershelp_similarity,
+            "ratcliff-obershelp": scores.ratcliff_obershelp_similarity,
         }
 
         if self.similarity_score not in self.similarity_measures:
