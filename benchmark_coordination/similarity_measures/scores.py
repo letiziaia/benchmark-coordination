@@ -4,6 +4,28 @@ from numpy.typing import NDArray
 import numpy as np
 
 
+def cardinality_similarity(vector1: NDArray[Any], vector2: NDArray[Any]) -> float:
+    """
+    Calculate the cardinality similarity between two vectors.
+    Cardinality similarity is the number of common elements between the two vectors.
+    :param vector1: The first vector.
+    :param vector2: The second vector.
+    :return: The cardinality similarity between the two vectors.
+    ----------------
+    Example:
+    >>> vector1 = [1, 2, 3]
+    >>> vector2 = [2, 3, 4]
+    >>> cardinality_similarity(vector1, vector1)
+    3
+    >>> cardinality_similarity(vector1, vector2)
+    2
+    """
+    set1 = set(vector1)
+    set2 = set(vector2)
+    similarity = len(set1.intersection(set2))
+    return similarity
+
+
 def cosine_similarity(
     vector1: NDArray[Any], vector2: NDArray[Any], return_normalized: bool = False
 ) -> float:

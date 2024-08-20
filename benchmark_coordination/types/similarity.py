@@ -1,3 +1,3 @@
 from typing import Literal
 
-Sim = Literal["cosine", "jaccard", "ratcliff-obershelp"]
+Sim = Literal["cardinality", "cosine", "jaccard", "ratcliff-obershelp"]

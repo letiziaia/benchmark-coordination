@@ -1,6 +1,7 @@
 import numpy as np
 import pytest
 from benchmark_coordination.similarity_measures.scores import (
+    cardinality_similarity,
     cosine_similarity,
     jaccard_similarity,
     jaccard_binary_similarity,
@@ -8,6 +9,25 @@ from benchmark_coordination.similarity_measures.scores import (
     _longest_common_substring,
     _matching_characters,
 )
+
+
+@pytest.mark.parametrize(
+    "vector1, vector2, expected_result",
+    [
+        (np.array([1, 2, 3]), np.array([4, 5, 6]), 0.0),
+        (np.array([1, 2, 3]), np.array([1, 2, 3]), 3.0),
+        (np.array([1, 2, 3]), np.array([-1, -2, -3]), 0.0),
+        (np.array([1, 2, 3]), np.array([1, 2, 3, 4, 5]), 3.0),
+    ],
+)
+def test_cardinality_similarity(vector1, vector2, expected_result):
+    """
+    Test the cardinality_similarity function.
+    """
+    result = cardinality_similarity(vector1, vector2)
+    assert np.isclose(
+        result, expected_result
+    ), f"Expected cardinality_similarity {expected_result}, got {result}"
 
 
 @pytest.mark.parametrize(
