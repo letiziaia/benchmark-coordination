@@ -1,5 +1,12 @@
 import pandas as pd
+import nltk  # type: ignore
 from nltk.util import ngrams  # type: ignore
+from nltk.tokenize import word_tokenize  # type: ignore
+from nltk.stem import WordNetLemmatizer  # type: ignore
+
+
+nltk.download("punkt_tab")
+nltk.download("wordnet")
 
 
 def lower_case_column_content(df: pd.DataFrame, column: str) -> pd.DataFrame:
@@ -112,4 +119,83 @@ def split_text_column_into_ngrams(
             )
         )
     )
+    return df
+
+
+def remove_stopwords(df: pd.DataFrame, column: str, stopwords: list) -> pd.DataFrame:
+    """
+    Remove stopwords from the text content of a column.
+    :param df: pd.DataFrame, the dataframe to be modified.
+    :param column: str, the name of the column to be modified.
+    :param stopwords: list, the list of stopwords to be removed.
+    :return: pd.DataFrame, the dataframe with stopwords removed from the specified column.
+    ----------------
+    Example:
+    ----------------
+    >>> import pandas as pd
+    >>> data = {
+    ...     "text": ["Hello world", "Hi there", "Hey you"]
+    ... }
+    >>> df = pd.DataFrame(data)
+    >>> remove_stopwords(df, "text", ["world", "there"])
+       text
+    0  Hello
+    1     Hi
+    2  Hey you
+    """
+    df[column] = df[column].apply(
+        lambda x: " ".join([word for word in x.split() if word not in stopwords])
+    )
+    return df
+
+
+def text_lemmatize_and_tokenize(df: pd.DataFrame, column: str) -> pd.DataFrame:
+    """
+    Lemmatize and tokenize the text content of a column.
+    :param df: pd.DataFrame, the dataframe to be modified.
+    :param column: str, the name of the column to be modified.
+    :return: pd.DataFrame, the dataframe with lemmatized and tokenized text content
+        in the specified column.
+    ----------------
+    Example:
+    ----------------
+    >>> import pandas as pd
+    >>> data = {
+    ...     "text": ["I am running", "He is walking", "They are jumping"]
+    ... }
+    >>> df = pd.DataFrame(data)
+    >>> text_lemmatize_and_tokenize(df, "text")
+                   text
+    0      [I, am, running]
+    1     [He, is, walking]
+    2  [They, are, jumping]
+    """
+    df[column] = [word_tokenize(x) for x in df[column].values]
+    lemmatizer = WordNetLemmatizer()
+    df[column] = df[column].apply(lambda x: [lemmatizer.lemmatize(word) for word in x])
+    return df
+
+
+def text_stemming(df: pd.DataFrame, column: str) -> pd.DataFrame:
+    """
+    Stem the text content of a column.
+    :param df: pd.DataFrame, the dataframe to be modified.
+    :param column: str, the name of the column to be stemmed.
+    :return: pd.DataFrame, the dataframe with stemmed text content in the specified column.
+    ----------------
+    Example:
+    ----------------
+    >>> import pandas as pd
+    >>> data = {
+    ...     "text": ["I am running", "He is walking", "They are jumping"]
+    ... }
+    >>> df = pd.DataFrame(data)
+    >>> text_stemming(df, "text")
+                text
+    0       i am run
+    1     he is walk
+    2  they are jump
+    """
+    stemmer = nltk.PorterStemmer()
+    df[column] = df[column].apply(lambda x: stemmer.stem(x))
     return df
