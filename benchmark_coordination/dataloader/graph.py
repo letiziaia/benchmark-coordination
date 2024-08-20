@@ -12,12 +12,12 @@ def filter_graph(bipartite: nx.Graph, after_time: str, before_time: str) -> nx.G
 
     after_time : str, a timestamp in the same format as
       in 'timestamp'. This is used in the filter as
-      left boundary (select the edge is any timestamp
+      left boundary (select the edge if any timestamp
       in the edge is >= 'after_time')
 
     before_time : str, a timestamp in the same format as
       in 'timestamp'. This is used in the filter as
-      right boundary (select the edge is any timestamp
+      right boundary (select the edge if any timestamp
       in the edge is <= 'after_time')
 
     Returns
