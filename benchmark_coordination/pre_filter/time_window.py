@@ -27,6 +27,7 @@ def slide_df(
     while current_window_start <= end_time:
         yield dataframe.filter_data(data, current_window_start, current_window_end)
         current_window_start += pd.Timedelta(minutes=step_size)
+        current_window_end = current_window_start + pd.Timedelta(minutes=window_size)
 
 
 def slide_graph(
@@ -50,3 +51,4 @@ def slide_graph(
     while current_window_start <= end_time:
         yield graph.filter_graph(graph, current_window_start, current_window_end)
         current_window_start += pd.Timedelta(minutes=step_size)
+        current_window_end = current_window_start + pd.Timedelta(minutes=window_size)
