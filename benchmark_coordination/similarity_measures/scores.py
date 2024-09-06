@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Literal
 from numpy.typing import NDArray
 
 import numpy as np
@@ -27,7 +27,10 @@ def cardinality_similarity(vector1: NDArray[Any], vector2: NDArray[Any]) -> floa
 
 
 def cosine_similarity(
-    vector1: NDArray[Any], vector2: NDArray[Any], return_normalized: bool = False
+    vector1: NDArray[Any],
+    vector2: NDArray[Any],
+    return_normalized: bool = False,
+    coalesce: Literal["pad", "cut", "raise"] = "raise",
 ) -> float:
     """
     Calculate the cosine similarity between two vectors.
@@ -37,6 +40,10 @@ def cosine_similarity(
     :param vector2: The second vector.
     :param return_normalized: Whether to return the normalized similarity (between 0 and 1).
         Default is False (return the raw similarity).
+    :param coalesce: one of 'pad', 'cut', 'raise'. If 'pad', the shorter vector is padded with 0.
+        If 'cut', the longer vector is truncated to the length of the shorter vector.
+        If 'raise', an error is raised if the vectors have different lengths.
+        Default is 'raise'.
     :return: The cosine similarity between the two vectors.
     ----------------
     Example:
@@ -67,6 +74,21 @@ def cosine_similarity(
     assert (
         np.linalg.norm(vector1) > 0 and np.linalg.norm(vector2) > 0
     ), "Vectors must be non-zero"
+    # check that the vectors have the same length
+    same_length = len(vector1) == len(vector2)
+    if not same_length and coalesce == "pad":
+        # pad the shorter vector with 0
+        max_length = max(len(vector1), len(vector2))
+        # pad the end of the vectors
+        vector1 = np.pad(vector1, (0, max_length - len(vector1)), constant_values=0)
+        vector2 = np.pad(vector2, (0, max_length - len(vector2)), constant_values=0)
+        print(vector1, vector2)
+    if not same_length and coalesce == "cut":
+        # cut the longer vector
+        min_length = min(len(vector1), len(vector2))
+        vector1 = vector1[:min_length]
+        vector2 = vector2[:min_length]
+
     dot_product = np.dot(vector1, vector2)
     norm1 = np.linalg.norm(vector1)
     norm2 = np.linalg.norm(vector2)
