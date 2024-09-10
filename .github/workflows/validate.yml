@@ -43,9 +43,9 @@ jobs:
         run: |
           pipenv run coverage run -m pytest
           pipenv run coverage xml
-      #- name: Upload coverage reports to Codecov
-      #  uses: codecov/codecov-action@v4.0.1
-      #  if: success()
-      #  with:
-      #    token: ${{ secrets.CODECOV_TOKEN }}
-      #    file: coverage.xml
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        if: success()
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: coverage.xml
