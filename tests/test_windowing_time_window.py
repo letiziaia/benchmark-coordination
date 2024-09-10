@@ -2,7 +2,7 @@ import pytest
 import pandas as pd
 import networkx as nx
 from datetime import datetime
-from benchmark_coordination.time_window import (
+from benchmark_coordination.windowing.time_window import (
     filter_dataframe,
     slide_dataframe,
     filter_graph,
