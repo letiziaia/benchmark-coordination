@@ -1,6 +1,6 @@
 import pytest
 import pandas as pd
-from benchmark_coordination.pipeline import Pipeline
+from benchmark_coordination.pipeline.pipeline import Pipeline
 from benchmark_coordination.network_builder.similarity_net import (
     build_similarity_network,
 )

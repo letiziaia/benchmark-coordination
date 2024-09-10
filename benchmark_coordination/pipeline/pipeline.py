@@ -2,10 +2,11 @@ from functools import partial
 from typing import Dict, List, Tuple
 import pandas as pd
 
+from benchmark_coordination.pipeline.abstractions import IPipeline
 from benchmark_coordination.utils.logging import logger
 
 
-class Pipeline:
+class Pipeline(IPipeline):
     """
     A sequence of data transformers.
 
@@ -57,8 +58,8 @@ class Pipeline:
     """
 
     def __init__(self, steps: List[Tuple], *, verbose: bool = False):
+        super().__init__(verbose=verbose)
         self.steps = steps
-        self.verbose = verbose
 
     def fit(self, data: pd.DataFrame) -> pd.DataFrame:
         """
