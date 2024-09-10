@@ -1,7 +1,7 @@
 from typing import Callable, Dict, List
 
-import benchmark_coordination.similarity_measures.scores as scores
-from benchmark_coordination.types.similarity import Sim
+import benchmark_coordination.similarity_calculator.scores as scores
+from benchmark_coordination.types.similarity_types import SimilarityMeasure
 
 
 class SimilarityCalculator:
@@ -17,7 +17,7 @@ class SimilarityCalculator:
     0.9746318461970762
     """
 
-    def __init__(self, similarity_score: Sim) -> None:
+    def __init__(self, similarity_score: SimilarityMeasure) -> None:
         """
         Initialize the SimilarityCalculator object with the similarity score to be used.
         :param similarity_score: str, the similarity score to be used.
