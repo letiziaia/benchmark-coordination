@@ -96,6 +96,6 @@ def test_save_to_parquet(mock_pd):
     save_to_parquet(data, file_path)
 
     data.to_parquet.assert_called(), "to_parquet was not called"
-    data.to_parquet.called_with(
+    data.to_parquet.assert_called_with(
         file_path, index=False
     ), "to_parquet was not called with the expected arguments"
