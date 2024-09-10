@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from benchmark_coordination.similarity_measures.scores import (
+from benchmark_coordination.similarity_calculator.scores import (
     cardinality_similarity,
     cosine_similarity,
     jaccard_similarity,
