@@ -1,11 +1,11 @@
 import pandas as pd
 
-from benchmark_coordination.similarity_measures.similarity import SimilarityCalculator
-from benchmark_coordination.types.similarity import Sim
+from benchmark_coordination.similarity_calculator.calculator import SimilarityCalculator
+from benchmark_coordination.types.similarity_types import SimilarityMeasure
 
 
 def build_similarity_network(
-    dataframe: pd.DataFrame, score: Sim, symmetric: bool = True
+    dataframe: pd.DataFrame, score: SimilarityMeasure, symmetric: bool = True
 ) -> pd.DataFrame:
     """
     Build a similarity network from a dataframe using the specified similarity score.
@@ -13,8 +13,7 @@ def build_similarity_network(
         The dataframe should have column 'author_id' containing the source nodes, and column 'trace'
         containing the activity trace to compare.
     :param score: str, the similarity score to be used.
-        If the similarity score is not one of the following: "cosine", "jaccard",
-        a ValueError will be raised.
+        If the similarity score is not one from SimilarityMeasure, a ValueError will be raised.
     :param symmetric: bool, whether the similarity network should be symmetric.
     :return: pd.DataFrame, the edge list for the similarity network.
     ----------------

@@ -2,7 +2,7 @@ from functools import partial
 from typing import Dict, List, Tuple
 import pandas as pd
 
-from loguru import logger
+from benchmark_coordination.utils.logging import logger
 
 
 class Pipeline:

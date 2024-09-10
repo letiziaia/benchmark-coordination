@@ -25,11 +25,11 @@ wheel = "*"
 black = "*"
 coverage = "*"
 mypy = "*"
-notebook = "*"
+notebook = ">=7.2.2"
 pandas-stubs = "*"
 pip-audit = "*"
 pytest = "*"
-ruff = "~=0.6.1"
+ruff = "~=0.6.4"
 types-tqdm = "*"
 
 [scripts]
