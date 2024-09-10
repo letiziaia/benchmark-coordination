@@ -6,13 +6,12 @@ from unittest.mock import patch, MagicMock
 from benchmark_coordination.utils.io_utils import read_from_parquet, save_to_parquet
 
 
-@patch("benchmark_coordination.utils.io_utils.pd")
-def test_read_from_parquet(mock_pd):
+@patch("benchmark_coordination.utils.io_utils.pd.read_parquet")
+def test_read_from_parquet(mock_read_parquet):
     """
     Test the read_from_parquet function.
     """
-    file_path = "tests/data/test_data.parquet"
-    mock_pd.read_parquet.return_value = pd.DataFrame(
+    mock_df = pd.DataFrame(
         {
             "author_id": [1, 2, 3],
             "author": ["Alice", "Bob", "Charlie"],
@@ -29,8 +28,14 @@ def test_read_from_parquet(mock_pd):
             "mentioned_hashtags": [None, None, None],
         }
     )
+    mock_read_parquet.return_value = mock_df
+
+    # call the function
+    file_path = "dummy_path"
     result = read_from_parquet(file_path)
-    assert mock_pd.read_parquet.called_with(
+
+    # check that the function called pd.read_parquet with the expected arguments
+    mock_read_parquet.assert_called_with(
         file_path,
         columns=[
             "author_id",
@@ -90,7 +95,7 @@ def test_save_to_parquet(mock_pd):
     file_path = "tests/data/test_data.parquet"
     save_to_parquet(data, file_path)
 
-    assert data.to_parquet.called, "to_parquet was not called"
-    assert data.to_parquet.called_with(
+    data.to_parquet.assert_called(), "to_parquet was not called"
+    data.to_parquet.called_with(
         file_path, index=False
     ), "to_parquet was not called with the expected arguments"
