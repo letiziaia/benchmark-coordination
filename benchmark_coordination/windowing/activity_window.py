@@ -1,7 +1,6 @@
 import pandas as pd
 from typing import Generator
 
-import benchmark_coordination.utils.dataframe_utils as df_utils
 
 
 def filter_dataframe(data: pd.DataFrame, start_idx: int, end_idx: int) -> pd.DataFrame:
@@ -12,7 +11,10 @@ def filter_dataframe(data: pd.DataFrame, start_idx: int, end_idx: int) -> pd.Dat
     :param end_idx: int, the end index of the filter (exclusive).
     :return: pd.DataFrame, the filtered data.
     """
-    data = df_utils.cast_columns_to_datetime(data, ["timestamp"])
+    assert start_idx < end_idx, "Start index should be less than end index"
+    assert (
+        data.index.is_monotonic_increasing
+    ), "Data index should be monotonically increasing"
     return data.iloc[start_idx:end_idx]
 
 

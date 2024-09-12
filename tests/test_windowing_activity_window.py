@@ -37,6 +37,24 @@ def test_filter_dataframe(sample_dataframe):
     ], f"Expected [2, 3] but got {filtered_df['value'].tolist()}"
 
 
+def test_filter_dataframe_invalid_indices(sample_dataframe):
+    """
+    Test the filter_dataframe function with invalid indices.
+    """
+    with pytest.raises(AssertionError):
+        filter_dataframe(sample_dataframe, 3, 1)
+
+
+def test_filter_dataframe_invalid_index():
+    """
+    Test the filter_dataframe function with invalid index.
+    """
+    df = pd.DataFrame({"value": [1, 2, 3], "index": [2, 3, 1]})
+    df.set_index("index", inplace=True)
+    with pytest.raises(AssertionError):
+        filter_dataframe(df, 0, 2)
+
+
 def test_slide_dataframe(sample_dataframe):
     """
     Test the slide_dataframe function.
