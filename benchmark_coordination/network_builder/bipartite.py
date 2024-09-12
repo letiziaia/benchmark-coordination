@@ -58,7 +58,7 @@ def project_on_nodes(
     :param bipartite: nx.Graph, the input bipartite graph.
     :param nodes: list, the list of nodes to project on.
     :param weight: str, the attribute to use as weight for the edges in the projected graph.
-        Default is None, in which case the weight is the sum of the edges to the common neighbors.
+        Default is None, in which case the weight is the number of common neighbors.
     :return: nx.Graph, the projected graph.
     ----------------
     Example:
@@ -79,9 +79,9 @@ def project_on_nodes(
     ... )
     >>> nodes = ["1", "2", "3"]
     >>> project_on_nodes(B, nodes).edges(data=True)
-    EdgeDataView([('1', '2', {'weight': 1}), ('1', '3', {'weight': 1}), ('2', '3', {'weight': 1})])
+    EdgeDataView([('1', '2', {'weight': 1}), ('2', '3', {'weight': 1})])
     >>> project_on_nodes(B, nodes, weight="weight").edges(data=True)
-    EdgeDataView([('1', '2', {'weight': 2}), ('1', '3', {'weight': 2}), ('2', '3', {'weight': 2})])
+    EdgeDataView([('1', '2', {'weight': 2}), ('2', '3', {'weight': 2})])
     """
     P = nx.Graph()
     P.add_nodes_from(nodes)
