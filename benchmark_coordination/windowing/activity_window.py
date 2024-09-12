@@ -2,7 +2,6 @@ import pandas as pd
 from typing import Generator
 
 
-
 def filter_dataframe(data: pd.DataFrame, start_idx: int, end_idx: int) -> pd.DataFrame:
     """
     Filter data based on the given indices.
