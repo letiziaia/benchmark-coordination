@@ -14,7 +14,7 @@ This project is an integrated collection of network-based approaches for coordin
 - `similarity_calculator/`: implementation of similarity scores
 - `types/`: utilities for consistent code typing and datetime formatting
 - `utils/`: general utilities that are re-used throughout the codebase (e.g. logging)
-- `windowing`: functions to slice the data (e.g. sliding time windows approaches)
+- `windowing/`: functions to slice the data (e.g. sliding time windows approaches)
 
 ## Coordination Detection Methods
 
