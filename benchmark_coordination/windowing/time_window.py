@@ -18,7 +18,7 @@ def filter_dataframe(
     :param end_time: datetime, the end time of the filter (inclusive).
     :return: pd.DataFrame, the filtered data.
     """
-    data = df_utils.cast_columns_to_datetime(data, ["timestamp"])
+    data = df_utils.cast_columns_to_datetime(data.copy(), ["timestamp"])
     return data[data["timestamp"].between(start_time, end_time, inclusive="both")]
 
 
