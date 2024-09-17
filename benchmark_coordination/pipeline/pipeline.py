@@ -1,5 +1,5 @@
 from functools import partial
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Tuple
 import pandas as pd
 
 from benchmark_coordination.pipeline.abstractions import IPipeline
@@ -20,12 +20,15 @@ class Pipeline(IPipeline):
     steps : list of tuples
         List of (name of step, estimator, dictionary of params) tuples that are to be chained in
         sequential order. All steps must return a pd.DataFrame.
+    pipeline_id : str, optional
+        The ID of the pipeline. If not provided, a random ID will be generated.
+    verbose : bool, optional
+        Whether to log the steps of the pipeline. Default is False.
 
     Attributes
     ----------
-    named_steps : Dictionary-like object, with the following attributes.
-        Read-only attribute to access any step parameter by user given name.
-        Keys are step names and values are steps parameters.
+    named_steps : Dictionary-like object. Read-only attribute to access any step parameter
+        by name. Keys are step names and values are steps parameters.
 
     Examples
     --------
@@ -57,9 +60,35 @@ class Pipeline(IPipeline):
     8        3       5    0.333333
     """
 
-    def __init__(self, steps: List[Tuple], *, verbose: bool = False):
-        super().__init__(verbose=verbose)
-        self.steps = steps
+    def __init__(
+        self,
+        steps: List[Tuple],
+        *,
+        pipeline_id: Optional[str] = None,
+        verbose: bool = False,
+    ):
+        super().__init__(verbose=verbose, pipeline_id=pipeline_id)
+
+        self._steps = steps
+
+    @property
+    def steps(self) -> List[Tuple]:
+        """
+        Returns the steps of the Pipeline
+        :return: List[Tuple]
+        """
+        return self._steps
+
+    @property
+    def named_steps(self) -> Dict[str, partial]:
+        """
+        Returns the named steps of the Pipeline
+        :return: Dict[str, partial]
+        """
+        named_steps = {}
+        for name, step, params in self.steps:
+            named_steps[name] = partial(step, **params)
+        return named_steps
 
     def fit(self, data: pd.DataFrame) -> pd.DataFrame:
         """
@@ -75,25 +104,18 @@ class Pipeline(IPipeline):
         pd.DataFrame
             The transformed data.
         """
-        for name, step, params in self.steps:
-            data = step(data, **params)
-            if self.verbose:
-                logger.info(f"Step {name}: completed.")
-        return data
+        with logger.contextualize(pipeline=self._pipeline_id):
+            for name, step, params in self.steps:
+                data = step(data, **params)
+                if self.verbose:
+                    logger.info(f"Step {name}: completed.")
+            return data
 
-    def __len__(self):
+    def __len__(self) -> int:
         """
         Returns the length of the Pipeline
         """
         return len(self.steps)
 
-    @property
-    def named_steps(self) -> Dict[str, partial]:
-        """
-        Returns the named steps of the Pipeline
-        :return: Dict[str, partial]
-        """
-        named_steps = {}
-        for name, step, params in self.steps:
-            named_steps[name] = partial(step, **params)
-        return named_steps
+    def __repr__(self) -> str:
+        return f"Pipeline(steps={self.steps})"
