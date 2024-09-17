@@ -104,3 +104,55 @@ def test_pipeline_named_steps():
     assert "filter_edgelist" in named_steps, "Missing step 'filter_edgelist'"
     assert callable(named_steps["build_similarity_network"]), "Step is not callable"
     assert callable(named_steps["filter_edgelist"]), "Step is not callable"
+
+
+def test_pipeline_named_steps_empty():
+    """
+    Test the named_steps property of the Pipeline class when the Pipeline has no steps.
+    """
+    pipe = Pipeline(steps=[])
+    named_steps = pipe.named_steps
+    assert named_steps == {}, "Named steps should be an empty dictionary"
+
+
+def test_pipeline_steps():
+    """
+    Test the steps property of the Pipeline class.
+    """
+    steps = [
+        (
+            "build_similarity_network",
+            build_similarity_network,
+            {"score": "jaccard", "symmetric": True},
+        ),
+        (
+            "filter_edgelist",
+            filter_edgelist,
+            {"column_name": "similarity", "threshold": 0.3, "comparison": ">="},
+        ),
+    ]
+    pipe = Pipeline(steps=steps)
+    assert pipe.steps == steps, "Steps property should return the steps"
+
+
+def test_pipeline_repr():
+    """
+    Test the __repr__ method of the Pipeline class.
+    """
+    pipe = Pipeline(
+        steps=[
+            (
+                "build_similarity_network",
+                build_similarity_network,
+                {"score": "jaccard", "symmetric": True},
+            ),
+            (
+                "filter_edgelist",
+                filter_edgelist,
+                {"column_name": "similarity", "threshold": 0.3, "comparison": ">="},
+            ),
+        ]
+    )
+    assert repr(pipe).startswith(
+        "Pipeline(steps=[('build_similarity_network', <function build_similarity_network at 0x"
+    ), f"Unexpected repr: {repr(pipe)}"
