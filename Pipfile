@@ -22,6 +22,7 @@ tqdm = "*"
 wheel = "*"
 
 [dev-packages]
+bandit = "*"
 black = "*"
 coverage = "*"
 mypy = "*"
@@ -34,6 +35,6 @@ types-tqdm = "*"
 
 [scripts]
 type = "bash -c 'python -m mypy benchmark_coordination'"
-validate = "bash -c 'python -m ruff check . && python -m pip_audit'"
+validate = "bash -c 'python -m ruff check . && python -m pip_audit && python -m bandit -r .'"
 
 [requires]
