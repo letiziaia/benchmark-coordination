@@ -30,7 +30,7 @@ notebook = ">=7.2.2"
 pandas-stubs = "*"
 pip-audit = "*"
 pytest = "*"
-ruff = "~=0.7.0"
+ruff = "~=0.7.2"
 types-tqdm = "*"
 
 [scripts]
